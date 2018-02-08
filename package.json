@@ -2,10 +2,7 @@
   "name": "rollup-starter-code-splitting",
   "devDependencies": {
     "npm-run-all": "^4.1.2",
-    "rollup": "^0.55.3",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^3.0.0"
+    "rollup": "^0.55.3"
   },
   "dependencies": {
     "serve": "^6.4.8"

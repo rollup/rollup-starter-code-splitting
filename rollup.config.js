@@ -1,7 +1,3 @@
-// `npm run build` -> `production` is true
-// `npm run dev` -> `production` is false
-const production = !process.env.ROLLUP_WATCH;
-
 export default [
 	// ES module version, for modern browsers
 	{
