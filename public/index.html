@@ -41,7 +41,7 @@
 	<!-- this snippet ensures nomodule fallback for browsers supporting modules but not dynamic import -->
 	<script type="module">
 		if (!window.hasDynamicImport) {
-			const noms = [...document.getElementsByTagName('script')].filter(x => x.hasAttribute('nomodule'));
+			const noms = Array.prototype.filter.call(document.getElementsByTagName('script'), x => x.hasAttribute('nomodule'));
 			function nextLoad (nom, s) {
 				if (!(nom = noms.shift())) return;
 				s = document.createElement('script');
