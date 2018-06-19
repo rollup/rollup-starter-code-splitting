@@ -25,14 +25,35 @@
 	</div>
 
 	<!-- for modern browsers -->
-	<script type='module' src='module/main-a.js'></script>
-	<script type='module' src='module/main-b.js'></script>
+	<script type='module'>
+		import('/module/main-a.js');
+		import('/module/main-b.js');
+		window.hasDynamicImport = true;
+	</script>
 
 	<!-- for older browsers -->
 	<script nomodule src='https://unpkg.com/systemjs@0.21.0/dist/system-production.js'></script>
 	<script nomodule>
 		System.import('nomodule/main-a.js');
 		System.import('nomodule/main-b.js');
+	</script>
+
+	<!-- this snippet ensures nomodule fallback for browsers supporting modules but not dynamic import -->
+	<script type="module">
+		if (!window.hasDynamicImport) {
+			const noms = [...document.getElementsByTagName('script')].filter(x => x.hasAttribute('nomodule'));
+			function nextLoad (nom, s) {
+				if (!(nom = noms.shift())) return;
+				s = document.createElement('script');
+				if (nom.src)
+					s.src = nom.src, s.addEventListener('load', nextLoad), s.addEventListener('error', nextLoad);
+				else
+					s.innerHTML = nom.innerHTML;
+				document.head.appendChild(s);
+				if (!nom.src) nextLoad();
+			}
+			nextLoad();
+		}
 	</script>
 </body>
 </html>
