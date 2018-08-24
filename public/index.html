@@ -24,36 +24,32 @@
 		<div data-used-by='both'></div>
 	</div>
 
-	<!-- for modern browsers -->
-	<script type='module'>
-		import('/module/main-a.js');
-		import('/module/main-b.js');
-		window.hasDynamicImport = true;
-	</script>
-
-	<!-- for older browsers -->
-	<script nomodule src='https://unpkg.com/systemjs@0.21.0/dist/system-production.js'></script>
-	<script nomodule>
-		System.import('nomodule/main-a.js');
-		System.import('nomodule/main-b.js');
-	</script>
-
-	<!-- this snippet ensures nomodule fallback for browsers supporting modules but not dynamic import -->
-	<script type="module">
-		if (!window.hasDynamicImport) {
-			const noms = Array.prototype.filter.call(document.getElementsByTagName('script'), x => x.hasAttribute('nomodule'));
-			function nextLoad (nom, s) {
-				if (!(nom = noms.shift())) return;
-				s = document.createElement('script');
-				if (nom.src)
-					s.src = nom.src, s.addEventListener('load', nextLoad), s.addEventListener('error', nextLoad);
-				else
-					s.innerHTML = nom.innerHTML;
-				document.head.appendChild(s);
-				if (!nom.src) nextLoad();
-			}
-			nextLoad();
-		}
-	</script>
+    <script nomodule>
+	    // If a browser does not support modules, feature detection may not not work properly below, so note this here
+		window.loadEntryPoints = null;
+    </script>
+    <script>
+        if (window.loadEntryPoints !== null) {
+            try {
+                // this will throw a runtime exception in browsers that support "import" but not "import()"
+                window.loadEntryPoints = new Function('import("/module/main-a.js");import("/module/main-b.js");');
+            } catch (err) {
+                window.loadEntryPoints = null;
+            }
+        }
+        if (window.loadEntryPoints) {
+            // browser supports dynamic import
+            window.loadEntryPoints();
+        } else {
+            // browser does not support dynamic import
+            const systemJsLoaderTag = document.createElement('script');
+            systemJsLoaderTag.src = 'https://unpkg.com/systemjs@0.21.4/dist/system-production.js';
+            systemJsLoaderTag.addEventListener('load', function () {
+                System.import('./nomodule/main-a.js');
+                System.import('./nomodule/main-b.js');
+            });
+            document.head.appendChild(systemJsLoaderTag);
+        }
+    </script>
 </body>
 </html>
