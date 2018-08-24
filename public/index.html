@@ -24,24 +24,13 @@
 		<div data-used-by='both'></div>
 	</div>
 
-    <script nomodule>
-	    // If a browser does not support modules, feature detection may not not work properly below, so note this here
-		window.loadEntryPoints = null;
+    <script>
+        import("/module/main-a.js");
+        import("/module/main-b.js");
+		window.supporsDynamicImport = true;
     </script>
     <script>
-        if (window.loadEntryPoints !== null) {
-            try {
-                // this will throw a runtime exception in browsers that support "import" but not "import()"
-                window.loadEntryPoints = new Function('import("/module/main-a.js");import("/module/main-b.js");');
-            } catch (err) {
-                window.loadEntryPoints = null;
-            }
-        }
-        if (window.loadEntryPoints) {
-            // browser supports dynamic import
-            window.loadEntryPoints();
-        } else {
-            // browser does not support dynamic import
+        if (!window.supporsDynamicImport) {
             const systemJsLoaderTag = document.createElement('script');
             systemJsLoaderTag.src = 'https://unpkg.com/systemjs@0.21.4/dist/system-production.js';
             systemJsLoaderTag.addEventListener('load', function () {
