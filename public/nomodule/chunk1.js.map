@@ -1,1 +1,0 @@
-{"version":3,"file":"chunk1.js","sources":["src/used-by-both.js"],"sourcesContent":["export default {\n\tcolor: 'slategrey',\n\tmessage: 'this is used by both entry points, so will be put in its own chunk'\n};"],"names":[],"mappings":";;;;;AAAA,uCAAe;CACd,KAAK,EAAE,WAAW;CAClB,OAAO,EAAE,oEAAoE;EAC7E;;;;;;"}
