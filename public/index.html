@@ -32,7 +32,7 @@
 	<script>
 		if (!window.supportsDynamicImport) {
 			const systemJsLoaderTag = document.createElement('script');
-			systemJsLoaderTag.src = 'https://unpkg.com/systemjs@2.0.0-alpha.1/dist/s.js';
+			systemJsLoaderTag.src = 'https://unpkg.com/systemjs@2.0.0-alpha.1/dist/s.min.js';
 			systemJsLoaderTag.addEventListener('load', function () {
 				System.import('./nomodule/main-a.js');
 				System.import('./nomodule/main-b.js');
