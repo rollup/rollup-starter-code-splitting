@@ -1,44 +1,41 @@
 <!doctype html>
 <html>
 <head lang='en'>
-	<meta charset='utf-8'>
-	<meta name='viewport' content='width=device-width'>
-	<link rel='icon' type='image/png' href='/favicon.png'>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width'>
+  <link rel='icon' type='image/png' href='/favicon.png'>
 
-	<title>Rollup code-splitting demo</title>
+  <title>Rollup code-splitting demo</title>
 
-	<link rel='stylesheet' href='styles.css'>
+  <link rel='stylesheet' href='styles.css'>
 </head>
 <body>
-	<h1>Rollup code-splitting demo</h1>
+  <h1>Rollup code-splitting demo</h1>
 
-	<p><a href='https://github.com/rollup/rollup-starter-code-splitting'>See the source code on GitHub</a></p>
+  <p><a href='https://github.com/rollup/rollup-starter-code-splitting'>See the source code on GitHub</a></p>
 
-	<div id='a'>
-		<div data-used-by='a'></div>
-		<div data-used-by='both'></div>
-	</div>
+  <div id='a'>
+    <div data-used-by='a'></div>
+    <div data-used-by='both'></div>
+  </div>
 
-	<div id='b'>
-		<div data-used-by='b'></div>
-		<div data-used-by='both'></div>
-	</div>
+  <div id='b'>
+    <div data-used-by='b'></div>
+    <div data-used-by='both'></div>
+  </div>
 
-	<script>
-		import("/module/main-a.js");
-		import("/module/main-b.js");
-		window.supportsDynamicImport = true;
-	</script>
-	<script>
-		if (!window.supportsDynamicImport) {
-			const systemJsLoaderTag = document.createElement('script');
-			systemJsLoaderTag.src = 'https://unpkg.com/systemjs@2.0.0/dist/s.min.js';
-			systemJsLoaderTag.addEventListener('load', function () {
-				System.import('./nomodule/main-a.js');
-				System.import('./nomodule/main-b.js');
-			});
-			document.head.appendChild(systemJsLoaderTag);
-		}
-	</script>
+  <script type="module">
+    import("./module/main-a.js");
+    import("./module/main-b.js");
+  </script>
+  <script noModule>
+    const systemJsLoaderTag = document.createElement('script');
+    systemJsLoaderTag.src = 'https://unpkg.com/systemjs@2.0.0/dist/s.min.js';
+    systemJsLoaderTag.addEventListener('load', function () {
+      System.import('./nomodule/main-a.js');
+      System.import('./nomodule/main-b.js');
+    });
+    document.head.appendChild(systemJsLoaderTag);
+  </script>
 </body>
 </html>
