@@ -29,13 +29,19 @@
     import("./module/main-b.js");
   </script>
   <script noModule>
-    const systemJsLoaderTag = document.createElement('script');
-    systemJsLoaderTag.src = 'https://unpkg.com/systemjs@2.0.0/dist/s.min.js';
-    systemJsLoaderTag.addEventListener('load', function () {
-      System.import('./nomodule/main-a.js');
-      System.import('./nomodule/main-b.js');
+    const promisePolyFill = document.createElement('script');
+    promisePolyFill.src = 'https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.2/bluebird.core.min.js';
+
+    promisePolyFill.addEventListener('load', function () {
+      const systemJsLoaderTag = document.createElement('script');
+      systemJsLoaderTag.src = 'https://cdnjs.cloudflare.com/ajax/libs/systemjs/2.1.1/s.min.js';
+      systemJsLoaderTag.addEventListener('load', function () {
+        System.import('./nomodule/main-a.js');
+        System.import('./nomodule/main-b.js');
+      });
+      document.head.appendChild(systemJsLoaderTag);
     });
-    document.head.appendChild(systemJsLoaderTag);
+    document.head.appendChild(promisePolyFill);
   </script>
 </body>
 </html>
