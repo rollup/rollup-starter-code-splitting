@@ -13,6 +13,5 @@ export default {
       format: "system",
       sourcemap: true
     }
-  ],
-  experimentalCodeSplitting: true
+  ]
 };
